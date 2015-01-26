@@ -1,7 +1,7 @@
 import os
 import argparse
 
-veil_path = "/root/veil/Veil-Evasion/Veil-Evasion.py"
+veil_path = "/root/Veil-Evasion/Veil-Evasion.py"
 payload_list=["auxiliary/coldwar_wrapper",
               "auxiliary/pyinstaller_wrapper",
               "c/meterpreter/rev_http",
