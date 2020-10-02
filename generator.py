@@ -1,8 +1,3 @@
-'''
-Mert Hacipoglu
-Symturk
-'''
-
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
